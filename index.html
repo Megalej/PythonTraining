@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hmmmhmm what should Seojin eat.</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50' font-size='52'%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="topbar" aria-label="Tournament controls">
+        <div class="title-block">
+          <p class="eyebrow" data-i18n="appName">Food Bracket</p>
+          <h1 data-i18n="headline">Hmmmhmm what should Seojin eat.</h1>
+          <p class="intro" data-i18n="intro">
+            Having trouble picking what to eat Seojin? Hope this app help narrow it downn :))
+          </p>
+        </div>
+        <div class="actions">
+          <button class="icon-button" id="shuffleBtn" type="button" aria-label="Shuffle foods" title="Shuffle foods" data-i18n-aria="shuffleFoods" data-i18n-title="shuffleFoods">
+            <span aria-hidden="true">↻</span>
+          </button>
+          <button class="rules-button" id="rulesBtn" type="button">
+            <span aria-hidden="true">?</span>
+            <span data-i18n="rulesButton">Rules</span>
+          </button>
+          <button class="icon-button" id="resetBtn" type="button" aria-label="Reset bracket" title="Reset bracket" data-i18n-aria="resetBracket" data-i18n-title="resetBracket">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="guide" aria-label="How the bracket works">
+        <div>
+          <span class="guide-step">1</span>
+          <p data-i18n="guideAdd">Add every food you would actually eat tonight.</p>
+        </div>
+        <div>
+          <span class="guide-step">2</span>
+          <p data-i18n="guidePick">Click your preferred food in each head-to-head matchup.</p>
+        </div>
+        <div>
+          <span class="guide-step">3</span>
+          <p data-i18n="guideWin">The final champion is your decision.</p>
+        </div>
+      </section>
+
+      <section class="champion-panel" aria-live="polite">
+        <div class="plate" id="championPlate" aria-hidden="true">?</div>
+        <div class="champion-copy">
+          <p class="label" data-i18n="championLabel">Champion</p>
+          <p class="winner-badge" id="winnerBadge" hidden data-i18n="winnerBadge">Winner</p>
+          <p class="champion-name" id="championName">Waiting on picks</p>
+          <p class="champion-helper" id="championHelper">Finish the final matchup to choose tonight's food.</p>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="food-drawer" aria-label="Food list">
+          <section class="appearance-panel" aria-label="Appearance controls">
+            <div class="language-callout">
+              <span class="language-arrow" aria-hidden="true">➜</span>
+              <div class="language-control">
+                <label for="languageSelect" data-i18n="languageLabel">Language</label>
+                <select id="languageSelect" name="language">
+                  <option value="en">English</option>
+                  <option value="ko">한국어</option>
+                </select>
+              </div>
+            </div>
+
+            <p class="panel-title" data-i18n="appearanceTitle">Appearance</p>
+            <label for="themeSelect" data-i18n="themeLabel">Color preset</label>
+            <select id="themeSelect" name="theme">
+              <option value="fresh">Fresh Tomato</option>
+              <option value="rainbow">Rainbow Rush</option>
+              <option value="pink">Pink Soda</option>
+              <option value="black">Midnight Black</option>
+              <option value="dark-blue">Deep Navy</option>
+              <option value="forest">Forest Table</option>
+              <option value="citrus">Citrus Pop</option>
+              <option value="matcha">Matcha Cream</option>
+              <option value="lavender">Lavender Diner</option>
+              <option value="ocean">Ocean Bento</option>
+            </select>
+
+            <label for="wallpaperSelect" data-i18n="wallpaperLabel">Wallpaper</label>
+            <select id="wallpaperSelect" name="wallpaper">
+              <option value="none">None</option>
+              <option value="bento">Bento Tiles</option>
+              <option value="noodles">Neon Noodles</option>
+            </select>
+          </section>
+
+          <form id="foodForm" class="food-form">
+            <label for="foodInput" data-i18n="addFoodLabel">Add a food</label>
+            <div class="input-row">
+              <input id="foodInput" name="food" type="text" autocomplete="off" placeholder="malatang, corndog, biryani" data-i18n-placeholder="foodPlaceholder">
+              <button type="submit" data-i18n="addButton">Add</button>
+            </div>
+          </form>
+          <section class="quick-add" aria-label="Quick add foods">
+            <div class="quick-add-head">
+              <p class="panel-title" data-i18n="quickAddTitle">Quick add</p>
+              <button class="clear-all-button" id="clearAllBtn" type="button" data-i18n="clearAllButton">Clear all</button>
+            </div>
+            <div class="quick-add-list" id="quickAddList"></div>
+          </section>
+          <div class="food-list" id="foodList"></div>
+        </aside>
+
+        <section class="bracket-wrap" aria-label="Tournament bracket">
+          <div class="bracket" id="bracket"></div>
+        </section>
+      </section>
+    </main>
+
+    <dialog class="rules-dialog" id="rulesDialog" aria-labelledby="rulesTitle">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow" data-i18n="rulesEyebrow">Rules</p>
+          <h2 id="rulesTitle" data-i18n="rulesTitle">How Food Bracket Works</h2>
+        </div>
+        <button class="icon-button" id="closeRulesBtn" type="button" aria-label="Close rules" title="Close rules" data-i18n-aria="closeRules" data-i18n-title="closeRules">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <ol class="rules-list">
+        <li data-i18n="ruleEmpty">The app starts empty. Add at least two foods to start a fair tournament.</li>
+        <li data-i18n="ruleQuick">Use Quick add for common options, or type your own food into the input.</li>
+        <li data-i18n="ruleMatchup">Each matchup asks one question: which food would you rather eat right now?</li>
+        <li data-i18n="ruleVariants">Foods with multiple styles can be customized before you start picking.</li>
+        <li data-i18n="ruleAdvance">The winner of a matchup advances to the next round.</li>
+        <li data-i18n="ruleChange">You can change a pick by clicking another food in that matchup.</li>
+        <li data-i18n="ruleReset">Shuffle randomizes the starting order. Reset clears all picks but keeps the food list.</li>
+        <li data-i18n="ruleAppearance">Color presets and wallpapers only change the look of the page.</li>
+        <li data-i18n="ruleChampion">When one food wins the final, it becomes the champion.</li>
+      </ol>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
